@@ -1,68 +1,49 @@
-# Data directories
-data/
-output/
-
 # Python
 __pycache__/
 *.py[cod]
-*$py.class
+*.pyo
+*.pyd
 *.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
 *.egg-info/
-.installed.cfg
+.eggs/
+.venv/
+venv/
+.env
+.python-version
+
+# Build artifacts
+build/
+dist/
 *.egg
 
-# Virtual environments
-venv/
-env/
-ENV/
+# Caches
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+coverage.xml
+.coverage
 
-# IDE
+# Editors/IDE
 .vscode/
 .idea/
-*.swp
-*.swo
 
-# Environment variables
-.env
-.env.local
-
-# API keys and secrets
-secrets.json
-api_keys.json
-
-# Logs
-*.log
-logs/
-
-# Database
-*.db
-*.sqlite
-cache.db
-
-# Ollama models (if downloaded locally)
-ollama_models/
+# OS
+.DS_Store
+Thumbs.db
 
 # Jupyter
 .ipynb_checkpoints/
-*.ipynb
+notebooks/**/.ipynb_checkpoints/
+Notebook2/**/.ipynb_checkpoints/
 
-# MacOS
-.DS_Store
+# Databases
+*.sqlite
+*.db
 
-# Temporary files
-*.tmp
-temp/
+# Outputs
+output/
+
+# Node (just in case)
+node_modules/
 

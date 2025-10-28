@@ -1,257 +1,386 @@
-# Agentic Topic Discovery System for Swiggy Reviews
+# AI Agent for Swiggy App Review Trend Analysis
 
-An end-to-end pipeline that automatically discovers, categorizes, and tracks topics from Google Play reviews using LLM-powered agentic workflows in **Jupyter Notebooks**.
+This project builds an AI system that analyzes Google Play Store reviews for **Swiggy** (a popular food delivery app in India) and creates daily trend reports. The system automatically finds issues, requests, and feedback from thousands of reviews and tracks how they change over time.
 
-## Quick Start
+## ⚠️ Important Disclaimer
 
-### 1. Setup Environment
+**API KEY NOTICE:** The API keys used in this project's code are **REVOKED** and will not work. 
 
-```bash
-# Create and activate virtual environment
-python3 -m venv venv
-source venv/bin/activate
+**You must use your own OpenAI API key to run this project.**
 
-# Install dependencies
-pip install -r requirements.txt
-```
+See the "Quick Start" section below for instructions on setting up your API key.
 
-### 2. Configure API Keys
+## 📋 What Was The Assignment?
 
-```bash
-# Create .env file (or use environment variables)
-echo "OPENAI_API_KEY=your-key-here" > .env
-```
+**Task:** Build an AI agent that analyzes Google Play reviews and generates daily trend reports.
 
-### 3. Run Notebooks
+**Requirements:**
+- Take reviews from June 2024 till date for **Swiggy app** (food delivery app)
+- Process reviews in daily batches
+- Track topics (issues, requests, feedback) over 30 days
+- Create a trend report showing how topics change over time
+- Use AI agents (not traditional topic modeling)
+- Find new topics automatically
+- Combine similar topics to avoid duplicates
 
-```bash
-# Launch Jupyter
-jupyter notebook notebooks/
+**Output:** A table showing:
+- Rows: Topics (like "Delivery issue", "Food stale", etc.)
+- Columns: Dates from T-30 to T (last 30 days)
+- Cells: How many times each topic appeared on each date
 
-# Then run notebooks in order:
-# 1. 01_setup_and_clean.ipynb        # Load and clean CSV
-# 2. 02_topic_router.ipynb            # Route reviews to topics  
-# 3. 05_trend_analysis.ipynb          # Generate trend tables
-```
+**Assignment Duration:** 24 hours
 
-## Project Structure
+## ✅ What Did I Deliver?
+
+I built a complete AI system with these features:
+
+1. **Review Processing Pipeline** - Cleans and processes 264,000+ reviews
+2. **AI Topic Detection** - Uses LLM (Large Language Model) to identify topics from reviews
+3. **Novel Topic Discovery** - Automatically finds new topics not in the initial list
+4. **Topic Deduplication** - Combines similar topics together (e.g., "Delivery guy was rude" + "Delivery partner behaved badly" → "Delivery partner rude")
+5. **30-Day Trend Reports** - Shows how topics change over the last 30 days
+6. **Daily Reports** - Generates CSV and HTML reports automatically
+
+## 📊 Final Output
+
+Here's what the trend report looks like:
+
+![Topic Trends Report](output/topics_trend_screenshot.png)
+
+*Note: Take a screenshot of your HTML report (`output/topics_trend_2025-10-28.html`) and save it as `output/topics_trend_screenshot.png`*
+
+The report shows:
+- **Topic names** (what people are complaining about or praising)
+- **Sparklines** (mini charts showing trends)
+- **7-day change** (how topics increased or decreased in the last week)
+- **Daily counts** (exact numbers for each topic each day)
+
+## 📹 Demonstration
+
+**Video Walkthrough:** [Link to Video - Upload your video to Google Drive and add link here]
+
+The video shows:
+- How the system works step by step
+- Running the complete pipeline
+- Understanding the output reports
+- How to interpret the trends
+
+## 📄 Detailed Report
+
+**PDF Report:** [Link to PDF - Upload your report and add link here]
+
+The PDF includes:
+- Technical architecture
+- How the AI agents work
+- Topic registry details
+- Performance metrics
+- Limitations and future work
+
+## 🚀 Quick Start
+
+### Setup
+
+1. **Install Python packages**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Set YOUR API key** (⚠️ You must use your own API key)
+   
+   **Option A: Use OpenAI API**
+   ```bash
+   export OPENAI_API_KEY="sk-your-openai-key-here"
+   ```
+   
+   **Option B: Use Megallm API**
+   ```bash
+   export MEGALLM_API_KEY="sk-mega-your-key-here"
+   export MEGALLM_BASE_URL="https://ai.megallm.io/v1"
+   ```
+   
+   **Note:** Get your API key from:
+   - OpenAI: https://platform.openai.com/api-keys
+   - Megallm: Their official website
+
+3. **Run the pipeline**
+   ```bash
+   jupyter notebook notebooks/00_complete_pipeline.ipynb
+   ```
+
+That's it! The system will automatically:
+- Load and clean the reviews
+- Detect topics using AI
+- Generate trend reports
+- Save results to the `output/` folder
+
+## 📁 Directory Structure
 
 ```
 Assignment/
-├── data/                              # Data storage
-│   ├── swiggy_scraped.csv             # Original 250K reviews
-│   ├── reviews_clean.parquet          # Cleaned data (from notebook 1)
-│   └── labels_initial.parquet         # Topic assignments (from notebook 2)
+├── notebooks/                          # Main notebooks (for cloud API usage)
+│   ├── 00_complete_pipeline.ipynb      # Runs entire pipeline
+│   ├── 01_setup_and_clean.ipynb        # Data cleaning
+│   ├── 02_topic_router.ipynb          # Topic detection
+│   ├── 04_topic_canonicalization.ipynb # Merge similar topics
+│   ├── 05_trend_analysis.ipynb        # Create reports
+│   ├── cache.db                       # API response cache
+│   └── utils/
+│       └── llm_client.py              # LLM client
+│
+├── Notebook2/                         # Local LLM notebooks (Ollama)
+│   ├── 00_complete_pipeline.ipynb
+│   ├── 01_setup_and_clean.ipynb
+│   ├── 02_topic_router.ipynb
+│   ├── 04_topic_canonicalization.ipynb
+│   ├── 05_trend_analysis.ipynb
+│   ├── cache.db
+│   └── utils/
+│       └── llm_client.py
+│
+├── data/                              # Processed data
+│   ├── reviews_clean.parquet          # Cleaned reviews
+│   ├── labels_initial.parquet         # All topic labels
+│   ├── novel_topic_summary.parquet    # New topics found
+│   ├── daily_batches/                 # Daily review files
+│   │   └── reviews_YYYY-MM-DD.parquet
+│   └── daily_labels/                  # Daily label files
+│       └── labels_YYYY-MM-DD.parquet
+│
+├── output/                            # Final reports
+│   ├── topics_trend_2025-10-28.csv    # Trend data (CSV)
+│   ├── topics_trend_2025-10-28.html   # Trend report (HTML)
+│   └── topics_trend_2025-10-28_debug.csv
+│
 ├── registry/
-│   └── topic_registry.json            # 32 seed topics
-├── notebooks/                          # Main pipeline
-│   ├── 01_setup_and_clean.ipynb      # Data cleaning
-│   ├── 02_topic_router.ipynb          # LLM topic routing
-│   ├── 03_novel_discovery.ipynb      # Discover new topics
-│   ├── 04_canonicalizer.ipynb         # Merge duplicates
-│   ├── 05_trend_analysis.ipynb        # 30-day trends
-│   └── 06_audit_ui.ipynb              # Quality audits
-├── utils/
-│   └── llm_client.py                  # Unified OpenAI/Ollama wrapper
-├── output/                             # Generated reports
-│   ├── topics_trend_YYYY-MM-DD.csv    # Trend data
-│   └── topics_trend_YYYY-MM-DD.html   # Interactive HTML
-├── requirements.txt
-└── README.md
+│   └── topic_registry.json            # Topic definitions (32 topics)
+│
+├── utils/                             # Shared utilities
+│   └── llm_client.py
+│
+├── swiggy_scraped.csv                 # Raw review data
+├── requirements.txt                   # Python dependencies
+├── README.md                          # This file
+└── venv/                              # Virtual environment
 ```
 
-## Notebook Workflow
+## 📝 Notebook Usage
 
-### Notebook 1: Setup & Clean (`01_setup_and_clean.ipynb`)
-- Load 250K reviews from CSV
-- Parse datetimes (IST timezone)
-- Normalize text (lowercase, strip)
-- Add computed columns (length, short review flag)
-- Save to Parquet (efficient for analytics)
+**Use `notebooks/` folder** if you want to use cloud AI APIs (OpenAI, Megallm)
+- Recommended for faster processing
+- Requires API key and internet connection
+- Costs money per API call
 
-**Output**: `data/reviews_clean.parquet`
+**Use `Notebook2/` folder** if you want to use local LLM (Ollama)
+- Free (no API costs)
+- Slower processing
+- Needs Ollama installed locally
+- Good for testing small samples
 
-### Notebook 2: Topic Router (`02_topic_router.ipynb`)
-- Load topic registry (32 seed topics)
-- Use LLM to assign topics to reviews
-- Multi-label classification (one review → multiple topics)
-- Mark novel reviews (don't fit existing topics)
-- Cache results for performance
+## 🔄 How It Works (Step by Step)
 
-**Output**: `data/labels_initial.parquet`
+**Step 1: Load and Clean Data**
+- Takes raw reviews from CSV file
+- Removes bad data and cleans up text
+- Saves cleaned data (225,000 valid reviews)
 
-### Notebook 3: Novel Discovery (`03_novel_discovery.ipynb`)
-- Cluster NOVEL reviews using embeddings
-- Generate candidate topic proposals
-- Interactive review interface
+**Step 2: Find Topics**
+- Uses AI to read each review
+- Decides which topics match the review
+- Each review can have multiple topics
+- Saves results day by day
 
-**Output**: Candidate topics for canonicalization
+**Step 3: Combine Similar Topics**
+- Looks for topics that mean the same thing
+- Example: "Delivery guy was rude" and "Delivery person was impolite" → Same topic
+- Saves a list of what topics to combine
 
-### Notebook 4: Canonicalizer (`04_canonicalizer.ipynb`)
-- Compare candidate vs existing topics
-- Merge duplicates using pairwise judge
-- Update topic registry
+**Step 4: Create Trend Report**
+- Counts how many times each topic appeared each day
+- Shows trends over 30 days
+- Creates CSV and HTML reports
 
-**Output**: Updated `registry/topic_registry.json`
+## 🎯 Topics Tracked
 
-### Notebook 5: Trend Analysis (`05_trend_analysis.ipynb`)
-- Load topic labels
-- Generate 30-day pivot table using DuckDB
-- Compute 7-day change percentages
-- Create sparklines (Unicode bar charts)
-- Export CSV + HTML
+The system tracks 32 topics across 8 categories:
 
-**Output**: `output/topics_trend_YYYY-MM-DD.csv` and `.html`
+**Logistics** (6 topics):
+- Order Incomplete
+- ETA Jump After Payment
+- Late Delivery
+- Can't Find Address
+- No Cancel Option
+- No Delivery Yet
 
-### Notebook 6: Audit UI (`06_audit_ui.ipynb`)
-- Browse topics with examples
-- Precision/recall audits
-- Manual topic management
-- View drift metrics
+**Food** (4 topics):
+- Stale Food
+- Wrong Item
+- Packaging Leak
+- Poor Quality
 
-## Topic Registry
+**Pricing** (3 topics):
+- High Fees
+- Surge Pricing
+- Overpriced Items
 
-32 seed topics across 7 facets:
+**Support** (3 topics):
+- Bot Only No Human Support
+- Refund Friction
+- No Response to Complaint
 
-- **Logistics** (5): Order Incomplete, ETA Jump, Late Delivery, Can't Find Address, No Cancel Option
-- **Food** (4): Stale Food, Wrong Item, Packaging Leak, Poor Quality
-- **Pricing** (3): High Fees, Surge Pricing, Overpriced Items
-- **Support** (3): Bot Only No Human, Refund Friction, No Response
-- **App/Payments** (5): Payment Failure, Login Bug, Cart Bug, OTP Issue, COD Not Available
-- **Partner** (2): Rude Delivery Person, Unprofessional
-- **Merch** (2): Out of Stock, Limited Options
-- **Sentiment** (8): Positive Experience, Negative Generic, Fast Delivery, Good Quality Food, Very Good Service, Great App
+**App/Payments** (6 topics):
+- Payment Failure
+- Login Bug
+- Cart Bug
+- OTP Issue
+- COD Not Available
+- Money Already Eaten
 
-## LLM Setup
+**Partner** (2 topics):
+- Rude Delivery Person
+- Unprofessional Behavior
 
-### OpenAI API (Recommended)
-```python
-# In notebook cells
-llm = LLMClient(provider='openai', model='gpt-3.5-turbo')
+**Merch** (2 topics):
+- Out of Stock
+- Limited Options
+
+**Sentiment** (6 topics):
+- Positive Experience
+- Negative Generic
+- Fast Delivery
+- Good Quality Food
+- Very Good Service
+- Great App
+
+## 💡 Key Features
+
+✅ **AI-Powered Topic Detection** - Uses advanced AI to understand reviews  
+✅ **Smart Topic Deduplication** - Combines similar topics automatically  
+✅ **Novel Topic Discovery** - Finds new topics not in the initial list  
+✅ **30-Day Trend Analysis** - Tracks changes over time  
+✅ **Visual Reports** - HTML charts and CSV data  
+✅ **Daily Processing** - Handles new reviews every day  
+✅ **Efficient Caching** - Saves API costs with smart caching  
+
+## 🔧 Technical Details
+
+**Data Processing:**
+- Tools: Polars (fast data processing), DuckDB (analytics)
+- Format: Parquet files for efficient storage
+- Cache: SQLite database for API responses
+
+**AI System:**
+- Provider: Megallm (OpenAI-compatible API)
+- Model: GPT-4o-mini
+- Features: JSON parsing, error handling, caching
+
+**How Topics Are Found:**
+1. System reads a review
+2. Compares it to topic definitions in the registry
+3. Decides which topics match
+4. Can assign multiple topics to one review
+5. Flags reviews that don't match any topic as "NOVEL"
+
+**How Similar Topics Are Combined:**
+1. Uses AI embeddings to understand topic meaning
+2. Compares similarity scores
+3. Combines topics with similarity > 82%
+4. Uses AI to review uncertain cases
+
+## 📊 Sample Output
+
+**CSV Report** shows:
+```csv
+topic_id,2025-09-28,2025-09-29,...,2025-10-25,7d_change_pct
+POSITIVE_EXPERIENCE,412,219,...,228,-5.41%
+LATE_DELIVERY,60,55,...,43,-10.17%
+MONEY_ALREADY_EATEN,17,15,...,16,9.76%
 ```
-- Fast processing (~20 min for 1000 reviews)
-- Costs ~$5-10 for full 250K dataset
-- High accuracy
 
-### Ollama Local (Free)
-```bash
-# Install Ollama
-curl -fsSL https://ollama.com/install.sh | sh
-ollama pull llama3.1:8b
+**HTML Report** shows:
+- Visual sparklines (mini charts)
+- Color-coded trends (green = increasing, red = decreasing)
+- Sortable tables
+- Interactive filters
 
-# In notebooks
-llm = LLMClient(provider='ollama', model='llama3.1:8b')
-```
-- No API costs
-- Slower (10-20x)
-- Good for development/testing
+## 📚 Requirements
 
-## Usage Examples
-
-### Run Pipeline on Sample
-```python
-# In notebook 02_topic_router.ipynb
-MAX_REVIEWS = 1000  # Process first 1000 for testing
-llm = LLMClient(provider='openai', model='gpt-3.5-turbo')
-# Execute cells...
-```
-
-### Generate Trend Report
-```bash
-jupyter notebook notebooks/05_trend_analysis.ipynb
-# Run all cells to generate HTML report
-```
-
-### View Results
-```bash
-# Open HTML report
-open output/topics_trend_2025-10-27.html
-
-# Or browse CSV
-head -n 20 output/topics_trend_2025-10-27.csv
-```
-
-## Key Features
-
-✅ **Multi-label classification** - One review can have multiple topics  
-✅ **Novel topic discovery** - Automatically detect new patterns  
-✅ **Pairwise canonicalization** - Merge duplicate topics  
-✅ **30-day rolling trends** - Track topic evolution over time  
-✅ **Sparklines** - Visual trend indicators  
-✅ **7-day delta** - See recent changes  
-✅ **Dual LLM support** - OpenAI API + local Ollama  
-✅ **Efficient caching** - SQLite cache for LLM calls
-
-## Quality Targets
-
-- ≥85% precision on top-10 topics
-- ≤10% missed assignments (recall)
-- Novel topic time-to-canonicalize ≤48h
-- Registry stability (≤5 merges/week after warm-up)
-
-## Requirements
-
+Install these packages:
 ```
 polars>=0.20.0          # Data processing
 duckdb>=0.10.0          # Analytics
-openai>=1.10.0          # LLM API
-langchain-ollama>=0.1.0 # Local LLMs
+openai>=1.10.0          # AI API
 sentence-transformers>=2.5.0  # Embeddings
-hdbscan>=0.8.33         # Clustering
 jupyter>=1.1.0          # Notebooks
 tqdm>=4.66.0            # Progress bars
 ```
 
-## Troubleshooting
+Run: `pip install -r requirements.txt`
 
-### OpenAI API errors
+## 🐛 Troubleshooting
+
+**API Key Issues (Most Common Problem):**
 ```bash
-# Check API key
+# Check if API key is set
+echo $MEGALLM_API_KEY
 echo $OPENAI_API_KEY
 
-# Or set in .env
-export OPENAI_API_KEY=sk-...
+# IMPORTANT: Use YOUR own API key (the ones in the code are revoked)
+# Set the API key
+export OPENAI_API_KEY="sk-your-key-here"  # Get from https://platform.openai.com/api-keys
+# OR
+export MEGALLM_API_KEY="sk-mega-your-key-here"
 ```
 
-### Ollama not responding
-```bash
-# Start Ollama service
-ollama serve
+**If you get "401 Unauthorized" or "Invalid API Key":**
+- The API keys in the project code are revoked and won't work
+- You MUST get your own API key
+- See the "Quick Start" section for instructions
 
-# Test connection
-curl http://localhost:11434/api/generate
-```
-
-### Import errors
+**Import Errors:**
 ```python
-# In notebook, add path
+# In notebook, add this at the top
 import sys
 sys.path.append('../')
 ```
 
-## Output Format
+**Cache Issues:**
+- Delete `notebooks/cache.db` if you get caching problems
+- The cache helps save money by reusing API responses
 
-### CSV: `topics_trend_2025-10-27.csv`
-```csv
-topic_id,2025-09-27,2025-09-28,...,2025-10-26,7d_change_pct
-ORDER_INCOMPLETE,45,52,...,61,+12.3
-ETA_JUMP_AFTER_PAYMENT,23,19,...,31,+8.5
-```
+## 🎓 Understanding The Results
 
-### HTML: `topics_trend_2025-10-27.html`
-- Sortable table
-- Sparklines (▁▂▃▅▇█)
-- Color-coded 7d Δ (green ↑, red ↓)
-- Responsive layout
+**What to look for in the trend report:**
 
-## Next Steps
+1. **Popular Topics** - Topics with high counts need attention
+2. **Growing Trends** - Topics with green (positive) change percentages are increasing
+3. **Improving Issues** - Topics with red (negative) change percentages are decreasing
+4. **Novel Topics** - Watch the NOVEL topic to find new issues emerging
 
-1. **Run notebook 1** to clean the 250K reviews CSV
-2. **Run notebook 2** to route topics (start with 1000 reviews sample)
-3. **Check results** in `data/labels_initial.parquet`
-4. **Run notebook 5** to generate trends
-5. **View HTML report** for visualizations
+**Example:**
+- "Late Delivery" with -10% means complaints about late delivery decreased by 10% in the last 7 days (good!)
+- "Money Already Eaten" with +9.8% means this issue increased by 9.8% (needs attention!)
 
-## License
+## 📝 Project Status
+
+✅ **Complete and Working** - All notebooks executed successfully
+
+**What's Been Done:**
+- ✅ Data cleaning: 225,918 valid reviews processed
+- ✅ Topic routing: All reviews labeled with topics
+- ✅ Novel topic analysis: Summary generated
+- ✅ Trend reports: Latest report created (2025-10-28)
+
+**Generated Files:**
+- ✅ `data/reviews_clean.parquet` - Cleaned reviews
+- ✅ `data/labels_initial.parquet` - All topic assignments
+- ✅ `data/novel_topic_summary.parquet` - New topics found
+- ✅ `output/topics_trend_2025-10-28.csv` - Trend data
+- ✅ `output/topics_trend_2025-10-28.html` - Visual report
+
+## 📞 Contact
+
+For questions about this project, contact: vatsal@pulsegen.io
+
+## 📜 License
 
 MIT
