@@ -57,7 +57,7 @@ The report shows:
 
 ## 📹 Demonstration
 
-**Video Walkthrough:** [Link to Video - Upload your video to Google Drive and add link here]
+**Video Walkthrough:** [Link to Video - https://drive.google.com/drive/folders/14s6hdw3lE23htA_JOmQ14KhV1h4PtmTS?usp=sharing]
 
 The video shows:
 - How the system works step by step
@@ -67,7 +67,7 @@ The video shows:
 
 ## 📄 Detailed Report
 
-**PDF Report:** [Link to PDF - Upload your report and add link here]
+**PDF Report:** [Link to PDF - https://drive.google.com/file/d/1hm4uRiLoNm1kqOgMHRMLH9vbaRFkkwF6/view?usp=sharing]
 
 The PDF includes:
 - Technical architecture
