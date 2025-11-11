@@ -1,8 +1,4 @@
-# Swiggy Review Trends — Project Full Copy
-
-> **Author / Contact:** [divyanshgupta0704@gmail.com](mailto:divyanshgupta0704@gmail.com)
-
----
+# Swiggy Review Trends
 
 ## Project Overview
 
