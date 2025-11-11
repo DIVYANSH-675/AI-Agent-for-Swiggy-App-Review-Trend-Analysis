@@ -1,183 +1,421 @@
 # AI Agent for Swiggy App Review Trend Analysis
 
-This project builds an AI system that analyzes Google Play Store reviews for **Swiggy** — a popular food delivery app in India — and generates daily trend reports. The system automatically detects user issues, requests, and feedback patterns from thousands of reviews and monitors how they change over time.
+This project builds an AI system that analyzes Google Play Store reviews for **Swiggy** (a popular food delivery app in India) and creates daily trend reports. The system automatically finds issues, requests, and feedback from thousands of reviews and tracks how they change over time.
 
 ## ⚠️ Important Disclaimer
 
-**API KEY NOTICE:**
-The API keys used in this project are **revoked**.
-You must use your own valid API keys to run this project.
+**API KEY NOTICE:** The API keys used in this project's code are **REVOKED** and will not work.
 
----
+**You must use your own OpenAI API key to run this project.**
 
-## 📌 Project Overview
+See the "Quick Start" section below for instructions on setting up your API key.
 
-The **AI Agent for Swiggy App Review Trend Analysis** is an automated pipeline that fetches app reviews from the Google Play Store, cleans and processes the data, and uses advanced AI techniques to extract, cluster, and summarize user sentiments and topics.
-It then generates daily and monthly reports to visualize key issues and customer feedback trends over time.
+## 📋 Project Overview
 
----
+**Goal:** Build an AI system that analyzes Google Play reviews and generates daily trend reports.
 
-## 🧠 Key Features
+**Core Features:**
 
-* **Automated Review Scraping:** Gathers the latest Swiggy reviews from Google Play Store.
-* **Sentiment and Topic Detection:** Uses NLP models to identify user pain points, feature requests, and feedback.
-* **Dynamic Topic Grouping:** Clusters similar comments to create coherent topics automatically.
-* **Trend Tracking:** Tracks how issues evolve daily, providing comparative insights.
-* **Data Storage:** Stores all raw, processed, and analyzed data for further analytics.
-* **Daily Report Generation:** Creates concise summaries and structured CSV reports every 24 hours.
+* Takes reviews from June 2024 till date for **Swiggy app** (food delivery app)
+* Processes reviews in daily batches
+* Tracks topics (issues, requests, feedback) over 30 days
+* Creates trend reports showing how topics change over time
+* Uses AI agents for topic discovery (not traditional topic modeling)
+* Detects new topics automatically
+* Merges similar topics to avoid duplicates
 
----
+**Output:** A table showing:
 
-## 🏗️ Project Pipeline
+* Rows: Topics (like "Delivery issue", "Food stale", etc.)
+* Columns: Dates from T-30 to T (last 30 days)
+* Cells: How many times each topic appeared on each date
 
-1. **Review Extraction**
+## ✅ What This System Delivers
 
-   * Fetches recent Swiggy app reviews using the Google Play Scraper.
-   * Supports pagination and date-wise filtering for continuous data collection.
+1. **Review Processing Pipeline** - Cleans and processes 264,000+ reviews
+2. **AI Topic Detection** - Uses LLM (Large Language Model) to identify topics from reviews
+3. **Novel Topic Discovery** - Automatically finds new topics not in the initial list
+4. **Topic Deduplication** - Combines similar topics together (e.g., "Delivery guy was rude" + "Delivery partner behaved badly" → "Delivery partner rude")
+5. **30-Day Trend Reports** - Shows how topics change over the last 30 days
+6. **Daily Reports** - Generates CSV and HTML reports automatically
 
-2. **Data Cleaning & Preprocessing**
+## 📊 Final Output
 
-   * Removes duplicates, irrelevant text, emojis, and special characters.
-   * Filters out non-English or incomplete reviews.
+Here's what the trend report looks like:
 
-3. **AI-based Review Categorization**
+![Topic Trends Report](output/Output.png)
 
-   * Uses LLM (OpenAI or compatible model) to classify reviews into key categories:
+*Note: Take a screenshot of your HTML report (`output/topics_trend_2025-10-28.html`) and save it as `output/topics_trend_screenshot.png`*
 
-     * Bugs / Technical Issues
-     * Delivery & Service Problems
-     * Feature Requests
-     * Positive Feedback
-     * Others
+The report shows:
 
-4. **Topic Clustering**
+* **Topic names** (what people are complaining about or praising)
+* **Sparklines** (mini charts showing trends)
+* **7-day change** (how topics increased or decreased in the last week)
+* **Daily counts** (exact numbers for each topic each day)
 
-   * Groups semantically similar reviews using embeddings.
-   * Creates summarized labels for each cluster for readability.
+## 📹 Demonstration
 
-5. **Trend Analysis**
+**Video Walkthrough:** [Link to Video - [https://drive.google.com/drive/folders/14s6hdw3lE23htA_JOmQ14KhV1h4PtmTS?usp=sharing](https://drive.google.com/drive/folders/14s6hdw3lE23htA_JOmQ14KhV1h4PtmTS?usp=sharing)]
 
-   * Calculates daily frequency of recurring topics.
-   * Tracks issue spikes or resolution trends over time.
+The video shows:
 
-6. **Report Generation**
+* How the system works step by step
+* Running the complete pipeline
+* Understanding the output reports
+* How to interpret the trends
 
-   * Produces both CSV summaries and markdown-style daily reports.
-   * Ready for visualization or dashboard integration.
+## 📄 Detailed Report
 
----
+**PDF Report:** [Link to PDF - [https://drive.google.com/file/d/1hm4uRiLoNm1kqOgMHRMLH9vbaRFkkwF6/view?usp=sharing](https://drive.google.com/file/d/1hm4uRiLoNm1kqOgMHRMLH9vbaRFkkwF6/view?usp=sharing)]
 
-## 🧹 Folder Structure
+The PDF includes:
+
+* Technical architecture
+* How the AI agents work
+* Topic registry details
+* Performance metrics
+* Limitations and future work
+
+## 🚀 Quick Start
+
+### Setup
+
+1. **Install Python packages**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Set YOUR API key** (⚠️ You must use your own API key)
+
+   **Option A: Use OpenAI API**
+
+   ```bash
+   export OPENAI_API_KEY="sk-your-openai-key-here"
+   ```
+
+   **Option B: Use Megallm API**
+
+   ```bash
+   export MEGALLM_API_KEY="sk-mega-your-key-here"
+   export MEGALLM_BASE_URL="https://ai.megallm.io/v1"
+   ```
+
+   **Note:** Get your API key from:
+
+   * OpenAI: [https://platform.openai.com/api-keys](https://platform.openai.com/api-keys)
+   * Megallm: Their official website
+
+3. **Run the pipeline**
+
+   ```bash
+   jupyter notebook notebooks/00_complete_pipeline.ipynb
+   ```
+
+That's it! The system will automatically:
+
+* Load and clean the reviews
+* Detect topics using AI
+* Generate trend reports
+* Save results to the `output/` folder
+
+## 📁 Directory Structure
 
 ```
-AI-Agent-Swiggy-Review-Trend/
+SwiggyReviewAI/
+├── notebooks/                          # Main notebooks (for cloud API usage)
+│   ├── 00_complete_pipeline.ipynb      # Runs entire pipeline
+│   ├── 01_setup_and_clean.ipynb        # Data cleaning
+│   ├── 02_topic_router.ipynb          # Topic detection
+│   ├── 04_topic_canonicalization.ipynb # Merge similar topics
+│   ├── 05_trend_analysis.ipynb        # Create reports
+│   ├── cache.db                       # API response cache
+│   └── utils/
+│       └── llm_client.py              # LLM client
 │
-├── data/
-│   ├── raw_reviews.csv
-│   ├── processed_reviews.csv
-│   └── trend_reports/
+├── Notebook2/                         # Local LLM notebooks (Ollama)
+│   ├── 00_complete_pipeline.ipynb
+│   ├── 01_setup_and_clean.ipynb
+│   ├── 02_topic_router.ipynb
+│   ├── 04_topic_canonicalization.ipynb
+│   ├── 05_trend_analysis.ipynb
+│   ├── cache.db
+│   └── utils/
+│       └── llm_client.py
 │
-├── scripts/
-│   ├── fetch_reviews.py
-│   ├── analyze_reviews.py
-│   ├── trend_analysis.py
-│   └── generate_report.py
+├── data/                              # Processed data
+│   ├── reviews_clean.parquet          # Cleaned reviews
+│   ├── labels_initial.parquet         # All topic labels
+│   ├── novel_topic_summary.parquet    # New topics found
+│   ├── daily_batches/                 # Daily review files
+│   │   └── reviews_YYYY-MM-DD.parquet
+│   └── daily_labels/                  # Daily label files
+│       └── labels_YYYY-MM-DD.parquet
 │
-├── requirements.txt
-├── README.md
-└── config.json
+├── output/                            # Final reports
+│   ├── topics_trend_2025-10-28.csv    # Trend data (CSV)
+│   ├── topics_trend_2025-10-28.html   # Trend report (HTML)
+│   └── topics_trend_2025-10-28_debug.csv
+│
+├── registry/
+│   └── topic_registry.json            # Topic definitions (32 topics)
+│
+├── utils/                             # Shared utilities
+│   └── llm_client.py
+│
+├── swiggy_scraped.csv                 # Raw review data
+├── requirements.txt                   # Python dependencies
+├── README.md                          # This file
+└── venv/                              # Virtual environment
 ```
 
----
+## 📝 Notebook Usage
 
-## ⚙️ Setup Instructions
+**Use `notebooks/` folder** if you want to use cloud AI APIs (OpenAI, Megallm)
 
-### 1. Clone the Repository
+* Recommended for faster processing
+* Requires API key and internet connection
+* Costs money per API call
+
+**Use `Notebook2/` folder** if you want to use local LLM (Ollama)
+
+* Free (no API costs)
+* Slower processing
+* Needs Ollama installed locally
+* Good for testing small samples
+
+## 🔄 How It Works (Step by Step)
+
+**Step 1: Load and Clean Data**
+
+* Takes raw reviews from CSV file
+* Removes bad data and cleans up text
+* Saves cleaned data (225,000 valid reviews)
+
+**Step 2: Find Topics**
+
+* Uses AI to read each review
+* Decides which topics match the review
+* Each review can have multiple topics
+* Saves results day by day
+
+**Step 3: Combine Similar Topics**
+
+* Looks for topics that mean the same thing
+* Example: "Delivery guy was rude" and "Delivery person was impolite" → Same topic
+* Saves a list of what topics to combine
+
+**Step 4: Create Trend Report**
+
+* Counts how many times each topic appeared each day
+* Shows trends over 30 days
+* Creates CSV and HTML reports
+
+## 🎯 Topics Tracked
+
+The system tracks 32 topics across 8 categories:
+
+**Logistics** (6 topics):
+
+* Order Incomplete
+* ETA Jump After Payment
+* Late Delivery
+* Can't Find Address
+* No Cancel Option
+* No Delivery Yet
+
+**Food** (4 topics):
+
+* Stale Food
+* Wrong Item
+* Packaging Leak
+* Poor Quality
+
+**Pricing** (3 topics):
+
+* High Fees
+* Surge Pricing
+* Overpriced Items
+
+**Support** (3 topics):
+
+* Bot Only No Human Support
+* Refund Friction
+* No Response to Complaint
+
+**App/Payments** (6 topics):
+
+* Payment Failure
+* Login Bug
+* Cart Bug
+* OTP Issue
+* COD Not Available
+* Money Already Eaten
+
+**Partner** (2 topics):
+
+* Rude Delivery Person
+* Unprofessional Behavior
+
+**Merch** (2 topics):
+
+* Out of Stock
+* Limited Options
+
+**Sentiment** (6 topics):
+
+* Positive Experience
+* Negative Generic
+* Fast Delivery
+* Good Quality Food
+* Very Good Service
+* Great App
+
+## 💡 Key Features
+
+✅ **AI-Powered Topic Detection** - Uses advanced AI to understand reviews
+✅ **Smart Topic Deduplication** - Combines similar topics automatically
+✅ **Novel Topic Discovery** - Finds new topics not in the initial list
+✅ **30-Day Trend Analysis** - Tracks changes over time
+✅ **Visual Reports** - HTML charts and CSV data
+✅ **Daily Processing** - Handles new reviews every day
+✅ **Efficient Caching** - Saves API costs with smart caching
+
+## 🔧 Technical Details
+
+**Data Processing:**
+
+* Tools: Polars (fast data processing), DuckDB (analytics)
+* Format: Parquet files for efficient storage
+* Cache: SQLite database for API responses
+
+**AI System:**
+
+* Provider: Megallm (OpenAI-compatible API)
+* Model: GPT-4o-mini
+* Features: JSON parsing, error handling, caching
+
+**How Topics Are Found:**
+
+1. System reads a review
+2. Compares it to topic definitions in the registry
+3. Decides which topics match
+4. Can assign multiple topics to one review
+5. Flags reviews that don't match any topic as "NOVEL"
+
+**How Similar Topics Are Combined:**
+
+1. Uses AI embeddings to understand topic meaning
+2. Compares similarity scores
+3. Combines topics with similarity > 82%
+4. Uses AI to review uncertain cases
+
+## 📊 Sample Output
+
+**CSV Report** shows:
+
+```csv
+topic_id,2025-09-28,2025-09-29,...,2025-10-25,7d_change_pct
+POSITIVE_EXPERIENCE,412,219,...,228,-5.41%
+LATE_DELIVERY,60,55,...,43,-10.17%
+MONEY_ALREADY_EATEN,17,15,...,16,9.76%
+```
+
+**HTML Report** shows:
+
+* Visual sparklines (mini charts)
+* Color-coded trends (green = increasing, red = decreasing)
+* Sortable tables
+* Interactive filters
+
+## 📚 Requirements
+
+Install these packages:
+
+```
+polars>=0.20.0          # Data processing
+duckdb>=0.10.0          # Analytics
+openai>=1.10.0          # AI API
+sentence-transformers>=2.5.0  # Embeddings
+jupyter>=1.1.0          # Notebooks
+tqdm>=4.66.0            # Progress bars
+```
+
+Run: `pip install -r requirements.txt`
+
+## 🐛 Troubleshooting
+
+**API Key Issues (Most Common Problem):**
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/AI-Agent-Swiggy-Review-Trend.git
-cd AI-Agent-Swiggy-Review-Trend
+# Check if API key is set
+echo $MEGALLM_API_KEY
+echo $OPENAI_API_KEY
+
+# IMPORTANT: Use YOUR own API key (the ones in the code are revoked)
+# Set the API key
+export OPENAI_API_KEY="sk-your-key-here"  # Get from https://platform.openai.com/api-keys
+# OR
+export MEGALLM_API_KEY="sk-mega-your-key-here"
 ```
 
-### 2. Install Dependencies
+**If you get "401 Unauthorized" or "Invalid API Key":**
 
-```bash
-pip install -r requirements.txt
+* The API keys in the project code are revoked and won't work
+* You MUST get your own API key
+* See the "Quick Start" section for instructions
+
+**Import Errors:**
+
+```python
+# In notebook, add this at the top
+import sys
+sys.path.append('../')
 ```
 
-### 3. Configure API Keys
+**Cache Issues:**
 
-Update your API keys in `config.json`:
+* Delete `notebooks/cache.db` if you get caching problems
+* The cache helps save money by reusing API responses
 
-```json
-{
-  "openai_api_key": "YOUR_API_KEY_HERE",
-  "model": "gpt-4-turbo"
-}
-```
+## 🎓 Understanding The Results
 
-### 4. Run the Pipeline
+**What to look for in the trend report:**
 
-```bash
-python scripts/fetch_reviews.py
-python scripts/analyze_reviews.py
-python scripts/trend_analysis.py
-python scripts/generate_report.py
-```
+1. **Popular Topics** - Topics with high counts need attention
+2. **Growing Trends** - Topics with green (positive) change percentages are increasing
+3. **Improving Issues** - Topics with red (negative) change percentages are decreasing
+4. **Novel Topics** - Watch the NOVEL topic to find new issues emerging
 
----
+**Example:**
 
-## 📊 Example Output
+* "Late Delivery" with -10% means complaints about late delivery decreased by 10% in the last 7 days (good!)
+* "Money Already Eaten" with +9.8% means this issue increased by 9.8% (needs attention!)
 
-**Daily Trend Report (sample)**
+## 📝 Project Status
 
-| Date       | Topic                        | Count | Sentiment | Trend       |
-| ---------- | ---------------------------- | ----- | --------- | ----------- |
-| 2025-11-11 | Late Delivery Complaints     | 132   | Negative  | 🔺 Rising   |
-| 2025-11-11 | App Login Issues             | 64    | Negative  | 🔻 Dropping |
-| 2025-11-11 | Cashback Feature Requests    | 28    | Neutral   | ➖ Stable    |
-| 2025-11-11 | Positive Delivery Experience | 115   | Positive  | 🔺 Rising   |
+✅ **Complete and Working** - All notebooks executed successfully
 
----
+**What's Been Done:**
 
-## 🧾 Requirements
+* ✅ Data cleaning: 225,918 valid reviews processed
+* ✅ Topic routing: All reviews labeled with topics
+* ✅ Novel topic analysis: Summary generated
+* ✅ Trend reports: Latest report created (2025-10-28)
 
-* Python 3.10 or higher
-* pip 24+
-* Compatible with both CPU and GPU environments
-* Tested on Ubuntu 22.04 (Linux)
+**Generated Files:**
 
----
+* ✅ `data/reviews_clean.parquet` - Cleaned reviews
+* ✅ `data/labels_initial.parquet` - All topic assignments
+* ✅ `data/novel_topic_summary.parquet` - New topics found
+* ✅ `output/topics_trend_2025-10-28.csv` - Trend data
+* ✅ `output/topics_trend_2025-10-28.html` - Visual report
 
-## 📈 Future Extensions
+## 📞 Contact
 
-* Integrate visualization dashboards (Streamlit / Plotly)
-* Add real-time sentiment monitoring
-* Expand to multi-app comparison (Swiggy, Zomato, Blinkit)
-* Automate email alerts for major trend changes
+For any queries or collaboration opportunities, contact: **[divyanshgupta0704@gmail.com](mailto:divyanshgupta0704@gmail.com)**
 
----
+## 📜 License
 
-## 🤝 Contribution Guidelines
-
-Contributions are welcome!
-Feel free to:
-
-* Submit issues for bugs or improvements
-* Open pull requests for enhancements
-* Share suggestions for better review analytics
-
----
-
-## 🧑‍💻 Author
-
-**Divyansh Gupta**
-Rajiv Gandhi Institute of Petroleum Technology (RGIPT)
-
----
-
-## 🪪 License
-
-This project is licensed under the **MIT License**.
-
----
+MIT
